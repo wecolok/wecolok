@@ -1,16 +1,9 @@
 <script setup lang="ts">
+import { User } from "@repo/models/types";
 
-import {User} from "@repo/models/types";
-
-const user: User = {
-
-}
+const user: User = {};
 </script>
 
-<template>
+<template></template>
 
-</template>
-
-<style scoped>
-
-</style>
+<style scoped></style>
