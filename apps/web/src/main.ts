@@ -1,9 +1,11 @@
 import { createApp } from "vue";
-import "./assets/index.css";
+import "./style.css";
 import App from "./App.vue";
 import { createPinia } from "pinia";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { publicRoutes } from "./public.routes.ts";
+
+const app = createApp(App);
 
 const routes: Readonly<RouteRecordRaw[]> = {
   ...publicRoutes,
@@ -17,4 +19,11 @@ const router = createRouter({
 
 const pinia = createPinia();
 
-createApp(App).use(router).use(pinia).mount("#app");
+app.use(router).use(pinia);
+
+app.config.errorHandler = (err, instance, info) => {
+  console.error(err);
+  console.log(instance, info);
+};
+
+app.mount("#app");

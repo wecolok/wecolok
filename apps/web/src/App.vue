@@ -1,8 +1,4 @@
-<script lang="ts" setup>
-import { User } from "@repo/models/types";
-
-const user: User = {};
-</script>
+<script lang="ts" setup></script>
 
 <template></template>
 
