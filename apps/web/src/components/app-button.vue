@@ -1,8 +1,14 @@
 <script lang="ts" setup>
+import Button from "primevue/button";
+
 type Variant = "primary" | "danger" | "success" | "info";
 type Type = "button" | "submit";
 
 defineProps({
+  label: {
+    type: String,
+    required: true,
+  },
   type: {
     type: String as () => Type,
     default: "button",
@@ -19,9 +25,12 @@ defineProps({
 </script>
 
 <template>
-  <button v-if="variant === 'primary'" :disabled="disabled" :type="type">
-    <slot />
-  </button>
+  <Button
+    v-if="variant === 'primary'"
+    :disabled="disabled"
+    :label="label"
+    :type="type"
+  />
 </template>
 
 <style scoped></style>
