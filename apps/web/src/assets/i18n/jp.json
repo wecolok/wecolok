@@ -1,0 +1,19 @@
+{
+  "login": {
+    "divider": "",
+    "email-label": "🦆",
+    "email-placeholder": "",
+    "invalid-email": "🦆",
+    "main-title": "🦆",
+    "password-label": "🦆",
+    "password-placeholder": "",
+    "required": "🦆",
+    "submit-label": "🦆"
+  },
+  "password": {
+    "medium-label": "🦆",
+    "prompt-label": "🦆",
+    "strong-label": "🦆",
+    "weak-label": "🦆"
+  }
+}

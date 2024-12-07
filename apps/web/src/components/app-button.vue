@@ -2,10 +2,10 @@
 import Button from "primevue/button";
 
 type Color = "primary" | "danger" | "success" | "info";
-type Variant = "text" | "outlined";
+type Variant = "text" | "outlined" | "link";
 type Type = "button" | "submit";
 type IconPosition = "left" | "right";
-type Size = "small" | "medium" | "large";
+type Size = "small" | "large";
 
 defineProps({
   label: {
@@ -28,7 +28,7 @@ defineProps({
   },
   size: {
     type: String as () => Size,
-    default: "medium",
+    default: undefined,
     required: false,
   },
   disabled: {
@@ -45,19 +45,30 @@ defineProps({
     default: "left",
     required: false,
   },
+  block: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
 });
 </script>
 
 <template>
   <Button
-    :disabled="disabled"
-    :icon="icon"
+    :class="{ block: block, 'big-button': size === 'large' }"
+    :disabled
+    :icon
     :icon-pos="iconPosition"
-    :label="label"
+    :label
     :severity="color"
-    :type="type"
-    :variant="variant"
+    :size
+    :type
+    :variant
   />
 </template>
 
-<style scoped></style>
+<style scoped>
+.block {
+  width: 100%;
+}
+</style>

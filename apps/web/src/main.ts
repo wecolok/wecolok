@@ -8,11 +8,12 @@ import { createRouter, createWebHistory } from "vue-router";
 import { publicRoutes } from "./public.routes.ts";
 import PrimeVue from "primevue/config";
 import { ColokPreset } from "../primevue.config.ts";
-
-const app = createApp(App);
+import { createI18n } from "vue-i18n";
+import * as i18nEn from "./assets/i18n/en.json";
+import * as i18nFr from "./assets/i18n/fr.json";
+import * as i18nJp from "./assets/i18n/jp.json";
 
 const routes = [...publicRoutes];
-
 const router = createRouter({
   history: createWebHistory(),
   routes,
@@ -20,21 +21,29 @@ const router = createRouter({
 
 const pinia = createPinia();
 
-app
-  .use(pinia)
-  .use(PrimeVue, {
-    theme: {
-      preset: ColokPreset,
-      options: {
-        darkModeSelector: "system",
-      },
-    },
-  })
-  .use(router);
+const i18n = createI18n({
+  locale: "en",
+  fallbackLocale: "en",
+  messages: {
+    en: i18nEn,
+    fr: i18nFr,
+    jp: i18nJp,
+  },
+});
 
+const primeVueOptions = {
+  theme: {
+    preset: ColokPreset,
+    options: {
+      darkModeSelector: ".app-dark",
+    },
+  },
+};
+
+const app = createApp(App);
+app.use(pinia).use(PrimeVue, primeVueOptions).use(i18n).use(router);
 app.config.errorHandler = (err, instance, info) => {
   console.error(err);
   console.log(instance, info);
 };
-
 app.mount("#app");

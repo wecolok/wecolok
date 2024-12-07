@@ -1,0 +1,19 @@
+{
+  "login": {
+    "divider": "Ou se connecter avec ",
+    "email-label": "Email",
+    "email-placeholder": "Entrez votre addresse email",
+    "invalid-email": "L'adresse email doit être valide",
+    "main-title": "Se connecter",
+    "password-label": "Mot de passe",
+    "password-placeholder": "Entrez votre mot de passe",
+    "required": "Ce champ est requis",
+    "submit-label": "Se connecter"
+  },
+  "password": {
+    "medium-label": "Mouais pas ouf 😐",
+    "prompt-label": "Choisis un mot de passe",
+    "strong-label": "Pas mal du tout 👍",
+    "weak-label": "C'est nul 🤮"
+  }
+}

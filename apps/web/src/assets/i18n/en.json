@@ -1,0 +1,19 @@
+{
+  "login": {
+    "divider": "Or login with",
+    "email-label": "Email",
+    "email-placeholder": "Enter your email address",
+    "invalid-email": "Must be a valid email",
+    "main-title": "Sign in",
+    "password-label": "Password",
+    "password-placeholder": "Enter your password",
+    "required": "This is required",
+    "submit-label": "Login"
+  },
+  "password": {
+    "medium-label": "Average complexity 😐",
+    "prompt-label": "Choose a password",
+    "strong-label": "Complex password 👍",
+    "weak-label": "Too simple 🤮"
+  }
+}
