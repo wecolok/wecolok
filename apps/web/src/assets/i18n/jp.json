@@ -1,12 +1,12 @@
 {
   "login": {
-    "divider": "",
+    "divider": "🦆",
     "email-label": "🦆",
-    "email-placeholder": "",
+    "email-placeholder": "🦆",
     "invalid-email": "🦆",
     "main-title": "🦆",
     "password-label": "🦆",
-    "password-placeholder": "",
+    "password-placeholder": "🦆",
     "required": "🦆",
     "submit-label": "🦆"
   },

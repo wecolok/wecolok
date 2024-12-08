@@ -14,15 +14,16 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  frontend:
+  web:
     build:
-      context: ./dockerfiles/web.Dockerfile
-      dockerfile: ./dockerfiles/Dockerfile
+      context: .
+      dockerfile: ./apps/web/Dockerfile
+    container_name: colok-web
+    restart: always
     ports:
-      - "8080:80"
-#      todo
-#    depends_on:
-#      - backend
+      - "80:80"
+    depends_on:
+      - postgres
 
 volumes:
   postgres_data:

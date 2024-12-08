@@ -22,8 +22,8 @@ const router = createRouter({
 const pinia = createPinia();
 
 const i18n = createI18n({
-  locale: "en",
-  fallbackLocale: "en",
+  locale: "jp",
+  fallbackLocale: "jp",
   messages: {
     en: i18nEn,
     fr: i18nFr,
