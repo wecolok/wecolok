@@ -14,5 +14,15 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  frontend:
+    build:
+      context: ./dockerfiles/web.Dockerfile
+      dockerfile: ./dockerfiles/Dockerfile
+    ports:
+      - "8080:80"
+#      todo
+#    depends_on:
+#      - backend
+
 volumes:
   postgres_data:
