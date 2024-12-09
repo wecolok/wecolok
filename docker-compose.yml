@@ -3,12 +3,12 @@ version: '3.9'
 services:
   postgres:
     image: postgres:15
-    container_name: colok-postgres-db
+    container_name: wecolok.db
     restart: always
     environment:
       POSTGRES_USER: app
       POSTGRES_PASSWORD: zYxvaMVbyxBaW@Hz10Nm
-      POSTGRES_DB: colok
+      POSTGRES_DB: wecolok
     ports:
       - "5432:5432"
     volumes:
@@ -18,7 +18,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/web/Dockerfile
-    container_name: colok-web
+    container_name: wecolok.web
     restart: always
     ports:
       - "80:80"

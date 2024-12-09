@@ -7,7 +7,7 @@ import { createPinia } from "pinia";
 import { createRouter, createWebHistory } from "vue-router";
 import { publicRoutes } from "./public.routes.ts";
 import PrimeVue from "primevue/config";
-import { ColokPreset } from "../primevue.config.ts";
+import { WeColokPreset } from "../primevue.config.ts";
 import { createI18n } from "vue-i18n";
 import * as i18nEn from "./assets/i18n/en.json";
 import * as i18nFr from "./assets/i18n/fr.json";
@@ -22,8 +22,8 @@ const router = createRouter({
 const pinia = createPinia();
 
 const i18n = createI18n({
-  locale: "jp",
-  fallbackLocale: "jp",
+  locale: "en",
+  fallbackLocale: "en",
   messages: {
     en: i18nEn,
     fr: i18nFr,
@@ -33,7 +33,7 @@ const i18n = createI18n({
 
 const primeVueOptions = {
   theme: {
-    preset: ColokPreset,
+    preset: WeColokPreset,
     options: {
       darkModeSelector: ".app-dark",
     },

@@ -1,7 +1,7 @@
 import { definePreset } from "@primevue/themes";
 import Aura from "@primevue/themes/aura";
 
-export const ColokPreset = definePreset(Aura, {
+export const WeColokPreset = definePreset(Aura, {
   primitive: {
     borderRadius: {
       none: "0",

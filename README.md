@@ -1,4 +1,4 @@
-# Colok
+# WeColok
 
 ## Useful Links
 

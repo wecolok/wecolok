@@ -1,5 +1,5 @@
 {
-  "name": "colok",
+  "name": "wecolok",
   "private": true,
   "scripts": {
     "build": "turbo build",
