@@ -1,5 +1,5 @@
-import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
-import { Response } from 'express';
+import { ArgumentsHost, Catch, ExceptionFilter } from "@nestjs/common";
+import { Response } from "express";
 
 @Catch()
 export class ExceptionHandler implements ExceptionFilter {
@@ -12,7 +12,7 @@ export class ExceptionHandler implements ExceptionFilter {
         .status(exception.response.statusCode)
         .json({ message: exception.response.message });
     } else {
-      response.status(500).json({ message: 'Something went wrong' });
+      response.status(500).json({ message: "Something went wrong" });
     }
   }
 }

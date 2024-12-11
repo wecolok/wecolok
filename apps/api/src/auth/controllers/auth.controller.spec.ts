@@ -1,13 +1,13 @@
-import { describe } from 'node:test';
-import { AuthController } from './auth.controller';
-import { Test, TestingModule } from '@nestjs/testing';
-import { AuthServiceGateway } from '../gateways/auth.service.gateway';
-import { AuthServiceStub } from '../services/auth.service.stub';
-import { UserCannotBeCreatedException } from '../../user/exceptions/user-exception';
-import { RefreshTokenDto } from '../dtos/refresh-token.dto';
-import { CreateUserDto } from '../../user/dto/create-user.dto';
+import { describe } from "node:test";
+import { AuthController } from "./auth.controller";
+import { Test, TestingModule } from "@nestjs/testing";
+import { AuthServiceGateway } from "../gateways/auth.service.gateway";
+import { AuthServiceStub } from "../services/auth.service.stub";
+import { UserCannotBeCreatedException } from "../../user/exceptions/user-exception";
+import { RefreshTokenDto } from "../dtos/refresh-token.dto";
+import { CreateUserDto } from "../../user/dto/create-user.dto";
 
-describe('AuthController', () => {
+describe("AuthController", () => {
   let authController: AuthController;
 
   beforeEach(async () => {
@@ -24,17 +24,17 @@ describe('AuthController', () => {
     authController = module.get<AuthController>(AuthController);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(authController).toBeDefined();
   });
 
-  describe('register', () => {
-    it('should return a user', async () => {
+  describe("register", () => {
+    it("should return a user", async () => {
       //Given
       const user: CreateUserDto = {
-        email: 'jane@smith.fr',
-        firstname: 'Jane',
-        lastname: 'Smith',
+        email: "jane@smith.fr",
+        firstname: "Jane",
+        lastname: "Smith",
       };
 
       //When
@@ -49,12 +49,12 @@ describe('AuthController', () => {
       });
     });
 
-    it('should throw an error', async () => {
+    it("should throw an error", async () => {
       //Given
       const user: CreateUserDto = {
-        email: 'john@doe.fr',
-        firstname: 'John',
-        lastname: 'Doe',
+        email: "john@doe.fr",
+        firstname: "John",
+        lastname: "Doe",
       };
 
       //When
@@ -65,12 +65,12 @@ describe('AuthController', () => {
     });
   });
 
-  describe('login', () => {
-    it('should return access and refresh tokens ', async () => {
+  describe("login", () => {
+    it("should return access and refresh tokens ", async () => {
       //Given
       const credentials = {
-        email: 'john@doe.fr',
-        password: 'password',
+        email: "john@doe.fr",
+        password: "password",
       };
 
       //When
@@ -78,23 +78,23 @@ describe('AuthController', () => {
 
       //Then
       expect(result).toEqual({
-        accessToken: 'accessToken',
-        refreshToken: 'refreshToken',
+        accessToken: "accessToken",
+        refreshToken: "refreshToken",
       });
     });
   });
 
-  describe('refresh', () => {
-    it('should return access token', async () => {
+  describe("refresh", () => {
+    it("should return access token", async () => {
       //Given
-      const refreshToken: RefreshTokenDto = { refreshToken: 'refreshToken' };
+      const refreshToken: RefreshTokenDto = { refreshToken: "refreshToken" };
 
       //When
       const result = await authController.refreshToken(refreshToken);
 
       //Then
       expect(result).toEqual({
-        accessToken: 'accessToken',
+        accessToken: "accessToken",
       });
     });
   });

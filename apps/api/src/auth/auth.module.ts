@@ -1,12 +1,12 @@
-import { Module } from '@nestjs/common';
-import { AuthService } from './services/auth.service';
-import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './services/strategies/jwt.strategy';
-import { LocalStrategy } from './services/strategies/local.strategy';
-import { AuthController } from './controllers/auth.controller';
-import { UsersModule } from '../user/users.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AuthServiceGateway } from './gateways/auth.service.gateway';
+import { Module } from "@nestjs/common";
+import { AuthService } from "./services/auth.service";
+import { JwtModule } from "@nestjs/jwt";
+import { JwtStrategy } from "./services/strategies/jwt.strategy";
+import { LocalStrategy } from "./services/strategies/local.strategy";
+import { AuthController } from "./controllers/auth.controller";
+import { UsersModule } from "../user/users.module";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { AuthServiceGateway } from "./gateways/auth.service.gateway";
 
 @Module({
   imports: [
@@ -18,9 +18,9 @@ import { AuthServiceGateway } from './gateways/auth.service.gateway';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         return {
-          secret: configService.get('JWT_SECRET'),
+          secret: configService.get("JWT_SECRET"),
           signOptions: {
-            expiresIn: configService.get<string>('JWT_ACCESS_TOKEN_EXPIRES'),
+            expiresIn: configService.get<string>("JWT_ACCESS_TOKEN_EXPIRES"),
           },
         };
       },

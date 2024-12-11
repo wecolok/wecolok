@@ -1,23 +1,23 @@
-import { describe } from 'node:test';
-import { ConfigService } from '@nestjs/config';
-import { localConf } from './database.config';
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { describe } from "node:test";
+import { ConfigService } from "@nestjs/config";
+import { localConf } from "./database.config";
+import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 
-describe('local-database-config', () => {
+describe("local-database-config", () => {
   let configService: ConfigService;
 
   beforeEach(() => {
     configService = new ConfigService();
   });
 
-  it('should return the correct TypeOrmModuleOptions', () => {
-    jest.spyOn(configService, 'get').mockImplementation((key: string) => {
+  it("should return the correct TypeOrmModuleOptions", () => {
+    jest.spyOn(configService, "get").mockImplementation((key: string) => {
       const config = {
-        POSTGRES_HOST: 'localhost',
+        POSTGRES_HOST: "localhost",
         POSTGRES_PORT: 5432,
-        POSTGRES_USER: 'testuser',
-        POSTGRES_PASSWORD: 'testpassword',
-        POSTGRES_DB: 'testdb',
+        POSTGRES_USER: "testuser",
+        POSTGRES_PASSWORD: "testpassword",
+        POSTGRES_DB: "testdb",
       };
       return config[key];
     });
@@ -29,12 +29,12 @@ describe('local-database-config', () => {
     };
 
     expect(options).toEqual({
-      type: 'postgres',
-      host: 'localhost',
+      type: "postgres",
+      host: "localhost",
       port: 5432,
-      username: 'testuser',
-      password: 'testpassword',
-      database: 'testdb',
+      username: "testuser",
+      password: "testpassword",
+      database: "testdb",
       synchronize: false,
       entities: [],
     });
