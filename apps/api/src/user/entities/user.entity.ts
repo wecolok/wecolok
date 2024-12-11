@@ -5,12 +5,12 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Unique,
-} from 'typeorm';
-import { UserInterface } from '../../user.model';
-import { hash } from 'bcrypt';
+} from "typeorm";
+import { UserInterface } from "../../user.model";
+import { hash } from "bcryptjs";
 
 @Entity()
-@Unique(['email'])
+@Unique(["email"])
 export class User implements UserInterface {
   @PrimaryGeneratedColumn()
   id: number;
