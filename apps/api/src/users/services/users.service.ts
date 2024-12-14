@@ -4,10 +4,10 @@ import { User } from "../entities/user.entity";
 import { Repository } from "typeorm";
 import { CreateUserDto } from "../dto/create-user.dto";
 import { UserDto } from "../dto/user.dto";
-import { UserServiceGateway } from "../gateways/user.service.gateway";
+import { UsersServiceGateway } from "../gateways/users.service.gateway";
 
 @Injectable()
-export class UserService implements UserServiceGateway {
+export class UserService implements UsersServiceGateway {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -28,5 +28,10 @@ export class UserService implements UserServiceGateway {
 
   async findOneByEmail(email: string): Promise<User> {
     return this.userRepository.findOne({ where: { email } });
+  }
+
+  async getOneById(id: number): Promise<UserDto> {
+    const user = await this.userRepository.findOne({ where: { id } });
+    return UserDto.fromEntity(user);
   }
 }

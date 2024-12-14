@@ -2,7 +2,7 @@
   "login": {
     "divider": "Or login with",
     "email-label": "Email",
-    "email-placeholder": "Enter your email address",
+    "email-placeholder": "Enter your email",
     "invalid-email": "Must be a valid email",
     "main-title": "Sign in",
     "password-label": "Password",
@@ -15,5 +15,38 @@
     "prompt-label": "Choose a password",
     "strong-label": "Complex password 👍",
     "weak-label": "Too simple 🤮"
+  },
+  "register": {
+    "email": {
+      "label": "Email",
+      "placeholder": "Enter your email"
+    },
+    "errors": {
+      "invalid-email": "Invalid email format",
+      "lowercase-required": "Password must include at least one lowercase letter.",
+      "no-space": "Password must not contain spaces.",
+      "number-required": "Password must include at least one number.",
+      "passwords-do-not-match": "Passwords do not match",
+      "required": "This is required",
+      "special-character-required": "Password must include at least one special character.",
+      "uppercase-required": "Password must include at least one uppercase letter."
+    },
+    "firstname": {
+      "label": "Firstname",
+      "placeholder": "Enter your firstname"
+    },
+    "lastname": {
+      "label": "Lastname",
+      "placeholder": "Enter your lastname"
+    },
+    "password": {
+      "confirmation": {
+        "label": "Password confirmation",
+        "placeholder": "Enter your password"
+      },
+      "label": "Password",
+      "placeholder": "Enter your password"
+    },
+    "submit-label": "Register"
   }
 }

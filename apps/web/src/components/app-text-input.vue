@@ -31,7 +31,6 @@ defineProps({
   },
   size: {
     type: String as () => Size,
-    default: undefined,
     required: false,
   },
 });
@@ -66,6 +65,7 @@ const onInput = (event: Event) => {
 .form-field {
   display: flex;
   flex-direction: column;
+  width: 100%;
   gap: 0.275rem;
 }
 </style>

@@ -15,5 +15,38 @@
     "prompt-label": "Choisis un mot de passe",
     "strong-label": "Pas mal du tout 👍",
     "weak-label": "C'est nul 🤮"
+  },
+  "register": {
+    "email": {
+      "label": "",
+      "placeholder": ""
+    },
+    "errors": {
+      "invalid-email": "",
+      "lowercase-required": "",
+      "no-space": "",
+      "number-required": "",
+      "passwords-do-not-match": "",
+      "required": "",
+      "special-character-required": "",
+      "uppercase-required": ""
+    },
+    "firstname": {
+      "label": "",
+      "placeholder": ""
+    },
+    "lastname": {
+      "label": "",
+      "placeholder": ""
+    },
+    "password": {
+      "confirmation": {
+        "label": "",
+        "placeholder": ""
+      },
+      "label": "",
+      "placeholder": ""
+    },
+    "submit-label": ""
   }
 }

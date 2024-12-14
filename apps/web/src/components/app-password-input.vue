@@ -6,6 +6,8 @@ import AppButton from "./app-button.vue";
 
 const { translate } = useTranslate();
 
+type Size = "small" | "large";
+
 defineProps({
   modelValue: {
     type: String,
@@ -36,6 +38,15 @@ defineProps({
     type: String,
     required: false,
   },
+  forgotPassword: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
+  size: {
+    type: String as () => Size,
+    required: false,
+  },
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -54,9 +65,11 @@ const onInput = (event: Event) => {
       :disabled
       :feedback
       :inputStyle="{ width: '100%' }"
+      :invalid="!!errorMessage"
       :mediumLabel="translate('password.medium-label')"
       :placeholder
       :promptLabel="translate('password.prompt-label')"
+      :size
       :strongLabel="translate('password.strong-label')"
       :value="modelValue"
       :weakLabel="translate('password.weak-label')"
@@ -66,7 +79,7 @@ const onInput = (event: Event) => {
     <Message v-if="errorMessage" severity="error" size="small" variant="simple">
       {{ errorMessage }}
     </Message>
-    <div class="forgot-password">
+    <div v-if="forgotPassword" class="forgot-password">
       <app-button label="Forgot password ?" variant="link" />
     </div>
   </div>

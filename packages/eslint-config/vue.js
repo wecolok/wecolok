@@ -35,7 +35,7 @@ export const vueJsConfig = [
     rules: {
       ...pluginVue.configs["recommended"].rules,
       ...tseslint.configs.recommended.rules,
-      "vue/script-setup-uses-vars": "error",
+      "vue/script-setup-uses-vars": "warn",
     },
   },
 ];

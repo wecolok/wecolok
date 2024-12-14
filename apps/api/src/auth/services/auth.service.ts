@@ -1,37 +1,41 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { User } from "../../user/entities/user.entity";
-import { UserInterface } from "../../user.model";
 import { compareSync } from "bcryptjs";
 import { ConfigService } from "@nestjs/config";
 import { AccessTokenDto } from "../dtos/access-token.dto";
-import { UserNotFoundException } from "../../user/exceptions/user-exception";
 import { TokensDto } from "../dtos/tokens.dto";
 import { AuthServiceGateway } from "../gateways/auth.service.gateway";
-import { CreateUserDto } from "../../user/dto/create-user.dto";
-import { UserDto } from "../../user/dto/user.dto";
-import { UserServiceGateway } from "../../user/gateways/user.service.gateway";
+import { CreateUserDto } from "../../users/dto/create-user.dto";
+import { UserDto } from "../../users/dto/user.dto";
+import { UsersServiceGateway } from "../../users/gateways/users.service.gateway";
+import { UserNotFoundException } from "../../users/exceptions/users-exception";
 
 @Injectable()
 export class AuthService implements AuthServiceGateway {
   constructor(
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
-    private readonly userServiceGateway: UserServiceGateway,
+    private readonly userServiceGateway: UsersServiceGateway,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<User> {
+  async validateUser(email: string, password: string): Promise<UserDto> {
     const user = await this.userServiceGateway.findOneByEmail(email);
 
     if (!user) {
       throw UserNotFoundException.emailNotFound(email);
     }
 
-    return compareSync(password, user?.password) ? user : null;
+    return compareSync(password, user?.password)
+      ? UserDto.fromEntity(user)
+      : null;
   }
 
-  async login(user: UserInterface): Promise<TokensDto> {
-    const payload = { user, sub: user.id };
+  async login(email: string): Promise<TokensDto> {
+    const userEntity = await this.userServiceGateway.findOneByEmail(email);
+
+    const { id } = UserDto.fromEntity(userEntity);
+
+    const payload = { sub: id };
 
     const accessToken = this.jwtService.sign(payload, {
       expiresIn: this.configService.get<string>("JWT_ACCESS_TOKEN_EXPIRES"),

@@ -1,9 +1,9 @@
 import { AppException } from "../../app-exception";
 import { HttpStatus } from "@nestjs/common";
 
-export class UserException extends AppException {}
+export class UsersException extends AppException {}
 
-export class UserNotFoundException extends UserException {
+export class UserNotFoundException extends UsersException {
   public static idNotFound(id: string): UserNotFoundException {
     return new UserNotFoundException(
       `User with id: ${id} not found.`,
@@ -19,7 +19,7 @@ export class UserNotFoundException extends UserException {
   }
 }
 
-export class UserCannotBeCreatedException extends UserException {
+export class UserCannotBeCreatedException extends UsersException {
   public static emailAlreadyExists(
     email: string,
   ): UserCannotBeCreatedException {

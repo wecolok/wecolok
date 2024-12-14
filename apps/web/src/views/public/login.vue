@@ -7,8 +7,12 @@ import AppButton from "../../components/app-button.vue";
 import { toTypedSchema } from "@vee-validate/zod";
 import { z } from "zod";
 import { Divider } from "primevue";
+import { useAuthStore } from "../../core/stores/auth.store.ts";
+import { useRouter } from "vue-router";
 
 const { translate } = useTranslate();
+const router = useRouter();
+const authStore = useAuthStore();
 
 const loginValidationSchema = toTypedSchema(
   z.object({
@@ -27,9 +31,12 @@ const { handleSubmit, errors } = useForm({
 const { value: email } = useField<string>("email");
 const { value: password } = useField<string>("password");
 
-const submitLoginForm = handleSubmit((values) => {
-  alert(JSON.stringify(values, null, 2));
-});
+const submitLoginForm = handleSubmit(
+  async (values: { email: string; password: string }) => {
+    const success = await authStore.login(values.email, values.password);
+    if (success) void router.push({ path: "/dashboard" });
+  },
+);
 </script>
 
 <template>
@@ -46,6 +53,7 @@ const submitLoginForm = handleSubmit((values) => {
         :id="'password'"
         v-model="password"
         :error-message="errors.password"
+        :forgot-password="true"
         :label="translate('login.password-label')"
         :placeholder="translate('login.password-placeholder')"
       />

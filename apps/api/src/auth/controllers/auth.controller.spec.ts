@@ -3,9 +3,9 @@ import { AuthController } from "./auth.controller";
 import { Test, TestingModule } from "@nestjs/testing";
 import { AuthServiceGateway } from "../gateways/auth.service.gateway";
 import { AuthServiceStub } from "../services/auth.service.stub";
-import { UserCannotBeCreatedException } from "../../user/exceptions/user-exception";
+import { UserCannotBeCreatedException } from "../../users/exceptions/user-exception";
 import { RefreshTokenDto } from "../dtos/refresh-token.dto";
-import { CreateUserDto } from "../../user/dto/create-user.dto";
+import { CreateUserDto } from "../../users/dto/create-user.dto";
 
 describe("AuthController", () => {
   let authController: AuthController;
