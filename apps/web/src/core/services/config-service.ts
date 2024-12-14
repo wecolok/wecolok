@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Nullable } from "@repo/models/types";
 
 export const apiClient = axios.create({
   //todo: move baseUrl to .env
@@ -8,6 +9,6 @@ export const apiClient = axios.create({
   },
 });
 
-export function setAuthToken(token: string) {
+export function setAuthToken(token: Nullable<string>) {
   apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 }

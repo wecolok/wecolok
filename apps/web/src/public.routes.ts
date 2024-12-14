@@ -15,6 +15,7 @@ function canAccess(
   if (store.isAuthenticated) {
     return next("/dashboard");
   }
+  next();
 }
 
 export const publicRoutes: Readonly<RouteRecordRaw[]> = [

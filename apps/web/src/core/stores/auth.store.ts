@@ -61,6 +61,17 @@ export const useAuthStore = defineStore("auth", {
       if (!this.tokens) return;
       this.tokens = await AuthService.refreshToken(this.tokens.refreshToken);
     },
+    logout() {
+      this.connectedUser = undefined;
+      this.tokens = undefined;
+
+      document.cookie =
+        "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie =
+        "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+      setAuthToken(null);
+    },
   },
 });
 
