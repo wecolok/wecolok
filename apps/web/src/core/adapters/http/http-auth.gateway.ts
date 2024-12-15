@@ -1,36 +1,30 @@
-import { apiClient } from "./config-service.ts";
 import { AuthTokens, CreateUser, User } from "@repo/models/types";
+import { apiClient } from "../../services/config-service.ts";
+import { AuthGateway } from "../../port/auth.gateway.ts";
 
-export namespace AuthService {
-  export const login = async (
-    email: string,
-    password: string,
-  ): Promise<AuthTokens> => {
+export class HttpAuthGateway implements AuthGateway {
+  async login(email: string, password: string): Promise<AuthTokens> {
     return apiClient
       .post("/auth/login", { email, password })
       .then((res) => res.data);
-  };
+  }
 
-  export const logout = () => {};
-
-  export const refreshToken = async (refreshToken: string) => {
+  async refreshToken(refreshToken: string): Promise<AuthTokens> {
     return apiClient
       .post("/auth/refresh", { refreshToken })
       .then((res) => res.data);
-  };
+  }
 
-  export const register = async (createUser: CreateUser): Promise<User> => {
+  async register(createUser: CreateUser): Promise<User> {
     return apiClient.post("/auth/register", createUser).then((res) => res.data);
-  };
+  }
 
-  export const reloadIdentity = async () => {
+  async reloadIdentity() {
     return apiClient
       .get("/users/me")
       .then((res) => res.data)
       .catch((err) => {
         throw err.response.data;
       });
-  };
-
-  export const resetPassword = () => {};
+  }
 }

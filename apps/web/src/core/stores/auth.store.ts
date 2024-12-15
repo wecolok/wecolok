@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import { AuthTokens, CreateUser, User } from "@repo/models/types";
-import { AuthService } from "../services/auth.service.ts";
 import { setAuthToken } from "../services/config-service.ts";
 import {
   decodeJwt,
@@ -8,6 +7,7 @@ import {
   getExpirationDate,
   isInFuture,
 } from "../utils.ts";
+import { AuthGateway } from "../port/auth.gateway.ts";
 
 interface AuthStoreInterface {
   connectedUser?: User;
@@ -16,64 +16,61 @@ interface AuthStoreInterface {
   error?: string;
 }
 
-export const useAuthStore = defineStore("auth", {
-  state: (): AuthStoreInterface => ({
-    connectedUser: undefined,
-    tokens: undefined,
-    loading: false,
-    error: undefined,
-  }),
-  getters: {
-    isAuthenticated(): boolean {
-      return !!this.connectedUser;
+export const defineAuthStore = (authGateway: AuthGateway) =>
+  defineStore("auth", {
+    state: (): AuthStoreInterface => ({
+      connectedUser: undefined,
+      tokens: undefined,
+      loading: false,
+      error: undefined,
+    }),
+    getters: {
+      isAuthenticated(): boolean {
+        return !!this.connectedUser;
+      },
     },
-  },
-  actions: {
-    async loadCookies() {
-      const { accessToken, refreshToken } = getAuthToken();
-      if (!(accessToken && refreshToken)) return;
-      this.tokens = { accessToken, refreshToken };
-      if (shouldReloadToken(accessToken)) {
-        await this.refreshAccessToken();
-      }
-      setAuthToken(this.tokens.accessToken);
-      await this.reloadIdentity();
-    },
-    async reloadIdentity() {
-      this.connectedUser = await AuthService.reloadIdentity();
-    },
-    async login(email: string, password: string): Promise<boolean> {
-      this.tokens = await AuthService.login(email, password);
-      setAuthToken(this.tokens.accessToken);
-      setAuthCookie(this.tokens.accessToken, this.tokens.refreshToken);
-      await this.reloadIdentity();
-      return Promise.resolve(true);
-    },
-    async register(createUser: CreateUser) {
-      const createdUser = await AuthService.register(createUser);
-      await this.userCreated(createdUser, createUser.password);
-    },
-    async userCreated(createdUser: User, password: string) {
-      this.connectedUser = createdUser;
-      await this.login(createdUser.email, password);
-    },
-    async refreshAccessToken() {
-      if (!this.tokens) return;
-      this.tokens = await AuthService.refreshToken(this.tokens.refreshToken);
-    },
-    logout() {
-      this.connectedUser = undefined;
-      this.tokens = undefined;
+    actions: {
+      async loadCookies() {
+        const { accessToken, refreshToken } = getAuthToken();
+        if (!(accessToken && refreshToken)) return;
+        this.tokens = { accessToken, refreshToken };
+        if (shouldReloadToken(accessToken)) {
+          await this.refreshAccessToken();
+        }
+        setAuthToken(this.tokens.accessToken);
+        await this.reloadIdentity();
+      },
+      async reloadIdentity() {
+        this.connectedUser = await authGateway.reloadIdentity();
+      },
+      async login(email: string, password: string): Promise<boolean> {
+        //todo: refactor for better testability
+        this.tokens = await authGateway.login(email, password);
+        setAuthToken(this.tokens.accessToken);
+        setAuthCookie(this.tokens.accessToken, this.tokens.refreshToken);
+        await this.reloadIdentity();
+        return Promise.resolve(true);
+      },
+      async register(createUser: CreateUser) {
+        this.connectedUser = await authGateway.register(createUser);
+      },
+      async refreshAccessToken() {
+        if (!this.tokens) return;
+        this.tokens = await authGateway.refreshToken(this.tokens.refreshToken);
+      },
+      logout() {
+        this.connectedUser = undefined;
+        this.tokens = undefined;
 
-      document.cookie =
-        "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      document.cookie =
-        "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie =
+          "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie =
+          "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-      setAuthToken(null);
+        setAuthToken(null);
+      },
     },
-  },
-});
+  });
 
 export function setAuthCookie(accessToken: string, refreshToken: string) {
   const accessTokenExpiration = getExpirationDate(decodeJwt(accessToken).exp);
@@ -82,6 +79,8 @@ export function setAuthCookie(accessToken: string, refreshToken: string) {
   document.cookie = `accessToken=${accessToken}; expires=${accessTokenExpiration}; path=/`;
   document.cookie = `refreshToken=${refreshToken}; expires=${refreshTokenExpiration}; path=/`;
 }
+
+export type AuthStore = ReturnType<ReturnType<typeof defineAuthStore>>;
 
 export function getAuthToken() {
   const accessToken = document.cookie

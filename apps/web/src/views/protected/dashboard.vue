@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { useAuthStore } from "../../core/stores/auth.store.ts";
 import AppButton from "../../components/app-button.vue";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "../../main.ts";
 
 const authStore = useAuthStore();
 const router = useRouter();

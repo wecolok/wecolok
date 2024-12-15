@@ -7,8 +7,8 @@ import AppButton from "../../components/app-button.vue";
 import { toTypedSchema } from "@vee-validate/zod";
 import { z } from "zod";
 import { Divider } from "primevue";
-import { useAuthStore } from "../../core/stores/auth.store.ts";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "../../main.ts";
 
 const { translate } = useTranslate();
 const router = useRouter();

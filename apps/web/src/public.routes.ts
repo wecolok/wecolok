@@ -4,7 +4,7 @@ import {
   RouteRecordRaw,
 } from "vue-router";
 import Landing from "./views/public/landing.vue";
-import { useAuthStore } from "./core/stores/auth.store.ts";
+import { useAuthStore } from "./main.ts";
 
 function canAccess(
   _: RouteLocationNormalized,

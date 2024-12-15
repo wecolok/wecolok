@@ -6,10 +6,12 @@ import AppPasswordInput from "../../components/app-password-input.vue";
 import AppButton from "../../components/app-button.vue";
 import { toTypedSchema } from "@vee-validate/zod";
 import { z } from "zod";
-import { useAuthStore } from "../../core/stores/auth.store.ts";
+import { useAuthStore } from "../../main.ts";
+import { useRouter } from "vue-router";
 
 const { translate } = useTranslate();
 const authStore = useAuthStore();
+const router = useRouter();
 
 const registerValidationSchema = toTypedSchema(
   z
@@ -62,8 +64,11 @@ const { value: passwordConfirmation } = useField<string>(
   "passwordConfirmation",
 );
 
-const submitRegisterForm = handleSubmit((values) => {
-  authStore.register(values);
+const submitRegisterForm = handleSubmit(async (values) => {
+  //todo: disable button during registration
+  await authStore.register(values);
+  await authStore.login(values.email, values.password);
+  void router.push({ path: "/dashboard" });
 });
 </script>
 
