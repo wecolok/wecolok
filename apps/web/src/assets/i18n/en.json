@@ -18,7 +18,7 @@
   },
   "register": {
     "email": {
-      "label": "Email",
+      "label": "What's your email ?",
       "placeholder": "Enter your email"
     },
     "errors": {
@@ -32,11 +32,11 @@
       "uppercase-required": "Password must include at least one uppercase letter."
     },
     "firstname": {
-      "label": "Firstname",
+      "label": "What's your firstname ?",
       "placeholder": "Enter your firstname"
     },
     "lastname": {
-      "label": "Lastname",
+      "label": "And your last name ?",
       "placeholder": "Enter your lastname"
     },
     "password": {
@@ -44,7 +44,7 @@
         "label": "Password confirmation",
         "placeholder": "Enter your password"
       },
-      "label": "Password",
+      "label": "Chose your password",
       "placeholder": "Enter your password"
     },
     "submit-label": "Register"

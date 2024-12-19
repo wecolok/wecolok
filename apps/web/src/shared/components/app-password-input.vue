@@ -2,7 +2,6 @@
 import { useTranslate } from "../composables/useTranslate.ts";
 import Password from "primevue/password";
 import Message from "primevue/message";
-import AppButton from "./app-button.vue";
 
 const { translate } = useTranslate();
 
@@ -31,7 +30,7 @@ defineProps({
   },
   feedback: {
     type: Boolean,
-    default: false,
+    default: true,
     required: false,
   },
   placeholder: {
@@ -79,9 +78,6 @@ const onInput = (event: Event) => {
     <Message v-if="errorMessage" severity="error" size="small" variant="simple">
       {{ errorMessage }}
     </Message>
-    <div v-if="forgotPassword" class="forgot-password">
-      <app-button label="Forgot password ?" variant="link" />
-    </div>
   </div>
 </template>
 

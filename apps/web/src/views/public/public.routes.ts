@@ -3,8 +3,8 @@ import {
   RouteLocationNormalized,
   RouteRecordRaw,
 } from "vue-router";
-import Landing from "./views/public/landing.vue";
-import { useAuthStore } from "./main.ts";
+import Landing from "./landing.vue";
+import { useAuthStore } from "../../main.ts";
 
 function canAccess(
   _: RouteLocationNormalized,
@@ -22,12 +22,12 @@ export const publicRoutes: Readonly<RouteRecordRaw[]> = [
   { path: "", component: Landing },
   {
     path: "/login",
-    component: () => import("./views/public/login.vue"),
+    component: () => import("./login.vue"),
     beforeEnter: canAccess,
   },
   {
     path: "/register",
-    component: () => import("./views/public/register.vue"),
+    component: () => import("./register.vue"),
     beforeEnter: canAccess,
   },
 ];

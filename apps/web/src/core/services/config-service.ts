@@ -9,6 +9,6 @@ export const apiClient = axios.create({
   },
 });
 
-export function setAuthToken(token: Nullable<string>) {
+export function setRequestAuthToken(token: Nullable<string>) {
   apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 }

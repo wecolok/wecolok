@@ -1,55 +1,49 @@
 <script lang="ts" setup>
 import { useField, useForm } from "vee-validate";
-import { useTranslate } from "../../composables/useTranslate.ts";
-import AppTextInput from "../../components/app-text-input.vue";
-import AppPasswordInput from "../../components/app-password-input.vue";
-import AppButton from "../../components/app-button.vue";
+import { useTranslate } from "../../shared/composables/useTranslate.ts";
+import AppTextInput from "../../shared/components/app-text-input.vue";
+import AppPasswordInput from "../../shared/components/app-password-input.vue";
+import AppButton from "../../shared/components/app-button.vue";
 import { toTypedSchema } from "@vee-validate/zod";
 import { z } from "zod";
 import { useAuthStore } from "../../main.ts";
 import { useRouter } from "vue-router";
+import { ref } from "vue";
+import SelectButton from "primevue/selectbutton";
 
 const { translate } = useTranslate();
 const authStore = useAuthStore();
 const router = useRouter();
 
 const registerValidationSchema = toTypedSchema(
-  z
-    .object({
-      firstname: z
-        .string()
-        .min(1, { message: translate("register.errors.required") }),
-      lastname: z
-        .string()
-        .min(1, { message: translate("register.errors.required") }),
-      email: z
-        .string()
-        .min(1, { message: translate("register.errors.required") })
-        .email({ message: translate("register.errors.invalid-email") }),
-      password: z
-        .string()
-        .min(8, { message: translate("register.errors.required") })
-        .regex(/[A-Z]/, {
-          message: translate("register.errors.uppercase-required"),
-        })
-        .regex(/[a-z]/, {
-          message: translate("register.errors.lowercase-required"),
-        })
-        .regex(/\d/, { message: translate("register.errors.number-required") })
-        .regex(/[@$!%*?&#]/, {
-          message: translate("register.errors.special-character-required"),
-        })
-        .refine((value) => !/\s/.test(value), {
-          message: translate("register.errors.no-space"),
-        }),
-      passwordConfirmation: z
-        .string()
-        .min(1, { message: translate("register.errors.required") }),
-    })
-    .refine((data) => data.password === data.passwordConfirmation, {
-      path: ["passwordConfirmation"],
-      message: translate("register.errors.passwords-do-not-match"),
-    }),
+  z.object({
+    firstname: z
+      .string()
+      .min(1, { message: translate("register.errors.required") }),
+    lastname: z
+      .string()
+      .min(1, { message: translate("register.errors.required") }),
+    email: z
+      .string()
+      .min(1, { message: translate("register.errors.required") })
+      .email({ message: translate("register.errors.invalid-email") }),
+    password: z
+      .string()
+      .min(8, { message: translate("register.errors.required") })
+      .regex(/[A-Z]/, {
+        message: translate("register.errors.uppercase-required"),
+      })
+      .regex(/[a-z]/, {
+        message: translate("register.errors.lowercase-required"),
+      })
+      .regex(/\d/, { message: translate("register.errors.number-required") })
+      .regex(/[@$!%*?&#]/, {
+        message: translate("register.errors.special-character-required"),
+      })
+      .refine((value) => !/\s/.test(value), {
+        message: translate("register.errors.no-space"),
+      }),
+  }),
 );
 
 const { handleSubmit, errors } = useForm({
@@ -60,12 +54,17 @@ const { value: firstname } = useField<string>("firstname");
 const { value: lastname } = useField<string>("lastname");
 const { value: email } = useField<string>("email");
 const { value: password } = useField<string>("password");
-const { value: passwordConfirmation } = useField<string>(
-  "passwordConfirmation",
-);
+
+const { value: status } = useField<string>("status", undefined, {
+  initialValue: "create",
+});
+
+const statusOptions = ref([
+  { name: "Je créé ma colocation", value: "create" },
+  { name: "Je rejoins une colocation", value: "join" },
+]);
 
 const submitRegisterForm = handleSubmit(async (values) => {
-  //todo: disable button during registration
   await authStore.register(values);
   await authStore.login(values.email, values.password);
   void router.push({ path: "/dashboard" });
@@ -75,24 +74,27 @@ const submitRegisterForm = handleSubmit(async (values) => {
 <template>
   <div class="register-page">
     <form @submit.prevent="submitRegisterForm">
-      <div class="name-fields">
-        <app-text-input
-          :id="'firstname'"
-          v-model="firstname"
-          :error-message="errors.firstname"
-          :label="translate('register.firstname.label')"
-          :placeholder="translate('register.firstname.placeholder')"
-          size="large"
-        />
-        <app-text-input
-          :id="'lastname'"
-          v-model="lastname"
-          :error-message="errors.lastname"
-          :label="translate('register.lastname.label')"
-          :placeholder="translate('register.lastname.placeholder')"
-          size="large"
-        />
-      </div>
+      <app-text-input
+        :id="'firstname'"
+        v-model="firstname"
+        :error-message="errors.firstname"
+        :label="translate('register.firstname.label')"
+        :placeholder="translate('register.firstname.placeholder')"
+        size="large"
+      />
+      <app-text-input
+        :id="'lastname'"
+        v-model="lastname"
+        :error-message="errors.lastname"
+        :label="translate('register.lastname.label')"
+        :placeholder="translate('register.lastname.placeholder')"
+        size="large"
+      />
+      <SelectButton
+        v-model="status"
+        :options="statusOptions"
+        option-label="name"
+      />
       <app-text-input
         :id="'email'"
         v-model="email"
@@ -109,16 +111,9 @@ const submitRegisterForm = handleSubmit(async (values) => {
         :placeholder="translate('register.password.placeholder')"
         size="large"
       />
-      <app-password-input
-        :id="'password'"
-        v-model="passwordConfirmation"
-        :error-message="errors.passwordConfirmation"
-        :label="translate('register.password.confirmation.label')"
-        :placeholder="translate('register.password.confirmation.placeholder')"
-        size="large"
-      />
       <br />
       <app-button
+        :disabled="authStore.loading"
         :label="translate('register.submit-label')"
         block
         size="large"
@@ -140,11 +135,8 @@ const submitRegisterForm = handleSubmit(async (values) => {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-
-    .name-fields {
-      display: flex;
-      gap: 0.5rem;
-    }
+    max-width: 400px;
+    width: 100%;
   }
 }
 </style>

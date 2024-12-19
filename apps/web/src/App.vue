@@ -1,14 +1,15 @@
-<script lang="ts" setup>
-import { useAuthStore } from "./main.ts";
-
-const store = useAuthStore();
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <div class="app-container">
-    {{ store.loading }}
     <router-view />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.app-container {
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+}
+</style>
