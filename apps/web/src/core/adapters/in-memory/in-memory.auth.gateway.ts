@@ -6,6 +6,7 @@ export class InMemoryAuthGateway implements AuthGateway {
   users: User[] = [];
 
   async login(email: string, password: string): Promise<AuthTokens> {
+    console.log(email, password);
     throw new Error("Method not implemented.");
   }
 
