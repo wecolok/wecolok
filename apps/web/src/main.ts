@@ -6,12 +6,12 @@ import App from "./App.vue";
 import PrimeVue from "primevue/config";
 import { AuthGateway } from "./core/port/auth.gateway.ts";
 
-import { defineAuthStore } from "./core/stores/auth-store/auth.store.ts";
+import { defineAuthStore } from "./core/stores/auth/auth.store.ts";
 import { HttpAuthGateway } from "./core/adapters/http/http-auth.gateway.ts";
 import {
   getAuthTokenFromCookies,
   loadIdentity,
-} from "./core/stores/auth-store/auth.utils.ts";
+} from "./core/stores/auth/auth.utils.ts";
 import { pinia } from "./config/pinia.config.ts";
 import { i18n } from "./config/i18n.config.ts";
 import { primeVueOptions } from "./config/primevue.config.ts";

@@ -8,8 +8,6 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { z } from "zod";
 import { useAuthStore } from "../../main.ts";
 import { useRouter } from "vue-router";
-import { ref } from "vue";
-import SelectButton from "primevue/selectbutton";
 
 const { translate } = useTranslate();
 const authStore = useAuthStore();
@@ -55,88 +53,98 @@ const { value: lastname } = useField<string>("lastname");
 const { value: email } = useField<string>("email");
 const { value: password } = useField<string>("password");
 
-const { value: status } = useField<string>("status", undefined, {
-  initialValue: "create",
-});
-
-const statusOptions = ref([
-  { name: "Je créé ma colocation", value: "create" },
-  { name: "Je rejoins une colocation", value: "join" },
-]);
-
 const submitRegisterForm = handleSubmit(async (values) => {
   await authStore.register(values);
   await authStore.login(values.email, values.password);
+  await authStore.reloadIdentity();
   void router.push({ path: "/dashboard" });
 });
 </script>
 
 <template>
   <div class="register-page">
-    <form @submit.prevent="submitRegisterForm">
-      <app-text-input
-        :id="'firstname'"
-        v-model="firstname"
-        :error-message="errors.firstname"
-        :label="translate('register.firstname.label')"
-        :placeholder="translate('register.firstname.placeholder')"
-        size="large"
-      />
-      <app-text-input
-        :id="'lastname'"
-        v-model="lastname"
-        :error-message="errors.lastname"
-        :label="translate('register.lastname.label')"
-        :placeholder="translate('register.lastname.placeholder')"
-        size="large"
-      />
-      <SelectButton
-        v-model="status"
-        :options="statusOptions"
-        option-label="name"
-      />
-      <app-text-input
-        :id="'email'"
-        v-model="email"
-        :error-message="errors.email"
-        :label="translate('register.email.label')"
-        :placeholder="translate('register.email.placeholder')"
-        size="large"
-      />
-      <app-password-input
-        :id="'password'"
-        v-model="password"
-        :error-message="errors.password"
-        :label="translate('register.password.label')"
-        :placeholder="translate('register.password.placeholder')"
-        size="large"
-      />
-      <br />
-      <app-button
-        :disabled="authStore.loading"
-        :label="translate('register.submit-label')"
-        block
-        size="large"
-        type="submit"
-      />
-    </form>
+    <div class="form-section">
+      <form @submit.prevent="submitRegisterForm">
+        <p>
+          Inscrivez-vous pour organiser et simplifier la vie en colocation, en
+          toute sérénité.
+        </p>
+        <app-text-input
+          :id="'firstname'"
+          v-model="firstname"
+          :error-message="errors.firstname"
+          :label="translate('register.firstname.label')"
+          :placeholder="translate('register.firstname.placeholder')"
+          size="large"
+        />
+        <app-text-input
+          :id="'lastname'"
+          v-model="lastname"
+          :error-message="errors.lastname"
+          :label="translate('register.lastname.label')"
+          :placeholder="translate('register.lastname.placeholder')"
+          size="large"
+        />
+
+        <app-text-input
+          :id="'email'"
+          v-model="email"
+          :error-message="errors.email"
+          :label="translate('register.email.label')"
+          :placeholder="translate('register.email.placeholder')"
+          size="large"
+        />
+        <app-password-input
+          :id="'password'"
+          v-model="password"
+          :error-message="errors.password"
+          :label="translate('register.password.label')"
+          :placeholder="translate('register.password.placeholder')"
+          size="large"
+        />
+        <br />
+        <app-button
+          :disabled="authStore.loading"
+          :label="translate('register.submit-label')"
+          block
+          size="large"
+          type="submit"
+        />
+      </form>
+    </div>
+
+    <div class="information-section"></div>
   </div>
 </template>
 
 <style scoped>
 .register-page {
   display: flex;
-  gap: 1rem;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
+  height: 100vh;
 
-  form {
+  .form-section {
     display: flex;
+    align-items: center;
+    justify-content: center;
     flex-direction: column;
-    gap: 0.5rem;
-    max-width: 400px;
-    width: 100%;
+    width: 50%;
+    background: red;
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      max-width: 400px;
+      width: 100%;
+
+      p {
+      }
+    }
+  }
+
+  .information-section {
+    background: blue;
+    width: 50%;
   }
 }
 </style>

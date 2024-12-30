@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { createPinia, setActivePinia } from "pinia";
-import { AuthStore, defineAuthStore } from "./auth.store.ts";
-import { InMemoryAuthGateway } from "../../adapters/in-memory/in-memory.auth.gateway.ts";
+import { AuthStore, defineAuthStore } from "./auth.store";
+import { InMemoryAuthGateway } from "../../adapters/in-memory/in-memory.auth.gateway";
+import { loadingPlugin } from "../plugins/loading.plugin";
 import { CreateUser, User } from "@repo/models/types";
-import { loadingPlugin } from "../plugins/loading.plugin.ts";
 
 describe("Auth Store", () => {
   let store: AuthStore;
