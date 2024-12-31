@@ -143,7 +143,7 @@ const submitRegisterForm = handleSubmit(async (values) => {
   }
 
   .information-section {
-    background: blue;
+    background: yellow;
     width: 50%;
   }
 }
