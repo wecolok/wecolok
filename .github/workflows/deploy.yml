@@ -94,13 +94,28 @@ jobs:
         id: version
         run: |
           # Extract latest tag, increment version
-          latest_tag=$(git describe --tags --abbrev=0 || echo "v0.0.0")
-          version=$(echo "$latest_tag" | awk -F. -v OFS=. '{$NF++; print}')
-          echo "version=$version" >> $GITHUB_ENV
+          latest_tag=$(git describe --tags --abbrev=0 || echo "0.0.0")
+
+          # Extract version components
+          major=$(echo "$latest_tag" | cut -d. -f1)
+          minor=$(echo "$latest_tag" | cut -d. -f2)
+          patch=$(echo "$latest_tag" | cut -d. -f3)
+
+          # Increment the "minor" version and reset "patch"
+          minor=$((minor + 1))
+          patch=0
+
+          # Construct the new version
+          new_version="$major.$minor.$patch"
+
+          # Save the new version to environment
+          echo "new_version=$new_version" >> $GITHUB_ENV
+          echo "Next version: $new_version"
+
 
       - name: Create and push release branch
         run: |
-          git checkout -b release-${{ env.version }}
+          git checkout -b release/${{ env.version }}
           git tag ${{ env.version }}
-          git push origin release-${{ env.version }}
+          git push origin release/${{ env.version }}
           git push origin ${{ env.version }}
