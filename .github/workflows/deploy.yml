@@ -98,15 +98,30 @@ jobs:
       - name: Determine next version
         id: version
         run: |
+          # Identifier la branche actuelle
+          branch_name=$(git rev-parse --abbrev-ref HEAD)
+
+          # Récupérer le dernier tag ou définir une valeur par défaut
           latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
 
+          # Extraire les composantes de la version
           major=$(echo "$latest_tag" | awk -F. '{print $1}')
           minor=$(echo "$latest_tag" | awk -F. '{print $2}')
           patch=$(echo "$latest_tag" | awk -F. '{print $3}')
 
-          patch=$((patch + 1))
+          # Si on est sur main, incrémenter "minor" et réinitialiser "patch"
+          if [ "$branch_name" = "main" ]; then
+            minor=$((minor + 1))
+            patch=0
+          else
+            # Sinon, incrémenter seulement le patch
+            patch=$((patch + 1))
+          fi
+
+          # Construire la nouvelle version
           new_version="$major.$minor.$patch"
-      
+
+          # Exporter la nouvelle version pour les étapes suivantes
           echo "new_version=$new_version" >> $GITHUB_ENV
           echo "Next version: $new_version"
 
