@@ -93,22 +93,23 @@ jobs:
       - name: Determine next version
         id: version
         run: |
-          # Extract the latest tag or default to 0.0.0 if no tags exist
+          # Obtenir le dernier tag ou définir "0.0.0" par défaut
           latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
 
-          # Extract version components
+          # Extraire les composantes de la version
           major=$(echo "$latest_tag" | cut -d. -f1)
           minor=$(echo "$latest_tag" | cut -d. -f2)
           patch=$(echo "$latest_tag" | cut -d. -f3)
 
-          # Increment the "minor" version and reset "patch"
-          minor=$((minor + 1))
-          patch=0
+          # Boucle pour trouver une version libre
+          while git rev-parse "refs/tags/$major.$minor.$patch" >/dev/null 2>&1; do
+            patch=$((patch + 1))
+          done
 
-          # Construct the new version
+          # Construire la nouvelle version
           new_version="$major.$minor.$patch"
 
-          # Save the new version to environment
+          # Enregistrer la nouvelle version dans l'environnement GitHub
           echo "new_version=$new_version" >> $GITHUB_ENV
           echo "Next version: $new_version"
 
