@@ -84,6 +84,11 @@ jobs:
     steps:
       - name: Checkout the code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Récupérer tout l'historique
+
+      - name: Fetch all tags
+        run: git fetch --tags
 
       - name: Set up Git user
         run: |
@@ -93,32 +98,22 @@ jobs:
       - name: Determine next version
         id: version
         run: |
-          # Obtenir le dernier tag ou définir "0.0.0" par défaut
           latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
-
-          # Extraire les composantes de la version
           major=$(echo "$latest_tag" | cut -d. -f1)
           minor=$(echo "$latest_tag" | cut -d. -f2)
           patch=$(echo "$latest_tag" | cut -d. -f3)
 
-          # Boucle pour trouver une version libre
           while git rev-parse "refs/tags/$major.$minor.$patch" >/dev/null 2>&1; do
             patch=$((patch + 1))
           done
 
-          # Construire la nouvelle version
           new_version="$major.$minor.$patch"
-
-          # Enregistrer la nouvelle version dans l'environnement GitHub
           echo "new_version=$new_version" >> $GITHUB_ENV
           echo "Next version: $new_version"
 
       - name: Create and push release branch
         run: |
-          # Create a new branch and tag
           git checkout -b release/${{ env.new_version }}
           git tag ${{ env.new_version }}
-
-          # Push the branch and the tag
           git push origin release/${{ env.new_version }}
           git push origin ${{ env.new_version }}
