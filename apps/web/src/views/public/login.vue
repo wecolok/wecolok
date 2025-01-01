@@ -42,7 +42,6 @@ const submitLoginForm = handleSubmit(
 <template>
   <div class="login-page">
     <form @submit.prevent="submitLoginForm">
-      <h1>Welcome back !</h1>
       <app-text-input
         :id="'email'"
         v-model="email"
@@ -67,6 +66,10 @@ const submitLoginForm = handleSubmit(
         size="large"
         type="submit"
       />
+      <div style="display: flex; gap: 0.2rem">
+        <p>I don't have an account</p>
+        <router-link to="/register">register</router-link>
+      </div>
     </form>
   </div>
 </template>
