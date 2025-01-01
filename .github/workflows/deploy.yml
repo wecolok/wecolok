@@ -93,8 +93,8 @@ jobs:
       - name: Determine next version
         id: version
         run: |
-          # Extract latest tag, increment version
-          latest_tag=$(git describe --tags --abbrev=0 || echo "0.0.0")
+          # Extract the latest tag or default to 0.0.0 if no tags exist
+          latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
 
           # Extract version components
           major=$(echo "$latest_tag" | cut -d. -f1)
@@ -112,10 +112,12 @@ jobs:
           echo "new_version=$new_version" >> $GITHUB_ENV
           echo "Next version: $new_version"
 
-
       - name: Create and push release branch
         run: |
-          git checkout -b release/${{ env.version }}
-          git tag ${{ env.version }}
-          git push origin release/${{ env.version }}
-          git push origin ${{ env.version }}
+          # Create a new branch and tag
+          git checkout -b release/${{ env.new_version }}
+          git tag ${{ env.new_version }}
+
+          # Push the branch and the tag
+          git push origin release/${{ env.new_version }}
+          git push origin ${{ env.new_version }}
