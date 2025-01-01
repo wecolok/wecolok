@@ -63,88 +63,70 @@ const submitRegisterForm = handleSubmit(async (values) => {
 
 <template>
   <div class="register-page">
-    <div class="form-section">
-      <form @submit.prevent="submitRegisterForm">
-        <p>
-          Inscrivez-vous pour organiser et simplifier la vie en colocation, en
-          toute sérénité.
-        </p>
-        <app-text-input
-          :id="'firstname'"
-          v-model="firstname"
-          :error-message="errors.firstname"
-          :label="translate('register.firstname.label')"
-          :placeholder="translate('register.firstname.placeholder')"
-          size="large"
-        />
-        <app-text-input
-          :id="'lastname'"
-          v-model="lastname"
-          :error-message="errors.lastname"
-          :label="translate('register.lastname.label')"
-          :placeholder="translate('register.lastname.placeholder')"
-          size="large"
-        />
+    <form @submit.prevent="submitRegisterForm">
+      <app-text-input
+        :id="'firstname'"
+        v-model="firstname"
+        :error-message="errors.firstname"
+        :label="translate('register.firstname.label')"
+        :placeholder="translate('register.firstname.placeholder')"
+        size="large"
+      />
+      <app-text-input
+        :id="'lastname'"
+        v-model="lastname"
+        :error-message="errors.lastname"
+        :label="translate('register.lastname.label')"
+        :placeholder="translate('register.lastname.placeholder')"
+        size="large"
+      />
 
-        <app-text-input
-          :id="'email'"
-          v-model="email"
-          :error-message="errors.email"
-          :label="translate('register.email.label')"
-          :placeholder="translate('register.email.placeholder')"
-          size="large"
-        />
-        <app-password-input
-          :id="'password'"
-          v-model="password"
-          :error-message="errors.password"
-          :label="translate('register.password.label')"
-          :placeholder="translate('register.password.placeholder')"
-          size="large"
-        />
-        <br />
-        <app-button
-          :disabled="authStore.loading"
-          :label="translate('register.submit-label')"
-          block
-          size="large"
-          type="submit"
-        />
-      </form>
-    </div>
-
-    <div class="information-section"></div>
+      <app-text-input
+        :id="'email'"
+        v-model="email"
+        :error-message="errors.email"
+        :label="translate('register.email.label')"
+        :placeholder="translate('register.email.placeholder')"
+        size="large"
+      />
+      <app-password-input
+        :id="'password'"
+        v-model="password"
+        :error-message="errors.password"
+        :label="translate('register.password.label')"
+        :placeholder="translate('register.password.placeholder')"
+        size="large"
+      />
+      <br />
+      <app-button
+        :disabled="authStore.loading"
+        :label="translate('register.submit-label')"
+        block
+        size="large"
+        type="submit"
+      />
+      <div style="display: flex; gap: 0.2rem">
+        <p>I already have an account</p>
+        <router-link to="/login">login</router-link>
+      </div>
+    </form>
   </div>
 </template>
 
 <style scoped>
 .register-page {
   display: flex;
-  height: 100vh;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
 
-  .form-section {
+  form {
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
-    width: 50%;
-    background: red;
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      max-width: 400px;
-      width: 100%;
-
-      p {
-      }
-    }
-  }
-
-  .information-section {
-    background: yellow;
-    width: 50%;
+    gap: 0.5rem;
+    max-width: 400px;
+    width: 100%;
   }
 }
 </style>
